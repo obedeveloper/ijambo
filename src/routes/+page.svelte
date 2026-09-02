@@ -1,6 +1,8 @@
-<svelte:head>
-	<title>IJAMBO</title>
-	<meta name="description" content="Umukino w'amagambo" />
-</svelte:head>
+<script lang="ts">
+	import { DESC, TITLE } from '#lib/site.ts';
+</script>
 
-<h1>IJAMBO</h1>
+<svelte:head>
+	<title>{TITLE}</title>
+	<meta name="description" content={DESC} />
+</svelte:head>
