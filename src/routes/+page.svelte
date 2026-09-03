@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { DESC, TITLE } from '#lib/site.ts';
 	import Keyboard from './Keyboard.svelte';
+
+	const inputs: string[] = $state(Array.from({ length: 6 }, () => ''));
+	const currentIndex = $state(0);
 </script>
 
 <svelte:head>
@@ -10,11 +13,13 @@
 
 <div class="wrapper">
 	<section>
-		{#each { length: 30 }}
-			<div></div>
+		{#each { length: 6 }, i}
+			{#each { length: 5 }, j}
+				<div>{inputs[i][j]}</div>
+			{/each}
 		{/each}
 	</section>
-	<Keyboard></Keyboard>
+	<Keyboard bind:userInput={inputs[currentIndex]}></Keyboard>
 </div>
 
 <style>
@@ -33,6 +38,10 @@
 		div {
 			border: 1.5px solid black;
 			aspect-ratio: 1;
+			font-size: 2.5rem;
+			display: grid;
+			place-content: center;
+			font-weight: 600;
 		}
 	}
 </style>
