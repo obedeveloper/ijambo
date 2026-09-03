@@ -29,6 +29,7 @@
 		"svelte-check": "^4.6.0",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.60.1",
+		"valibot": "^1.4.2",
 		"vite": "^8.1.5"
 	},
 	"imports": {
