@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '#lib/assets/favicon.svg';
-	import { TITLE, DESC } from '#lib/site.ts';
+	import { TITLE, DESC } from '#lib/site-config.ts';
 
 	const { children } = $props();
 </script>

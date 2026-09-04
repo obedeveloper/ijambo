@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DESC, TITLE } from '#lib/site.ts';
+	import { DESC, TITLE } from '#lib/site-config.ts';
 	import Keyboard from './Keyboard.svelte';
 
 	const inputs: string[] = $state(Array.from({ length: 6 }, () => ''));
