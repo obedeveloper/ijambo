@@ -1,4 +1,4 @@
-import words from '#lib/words.server.txt?raw';
+import words from '#lib/server/word-list.txt?raw';
 import { query } from '$app/server';
 
 const wordsArray = words.split('\n');
