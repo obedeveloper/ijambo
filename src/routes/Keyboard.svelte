@@ -73,5 +73,6 @@
 		border: none;
 		cursor: pointer;
 		font-weight: 700;
+		user-select: none;
 	}
 </style>
