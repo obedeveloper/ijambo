@@ -27,6 +27,10 @@
 		max-width: 40rem;
 		margin-inline: auto;
 		padding-inline: 1rem;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	section {
