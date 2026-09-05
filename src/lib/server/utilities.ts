@@ -1,5 +1,5 @@
 import { getRequestEvent } from '$app/server';
-import { count, eq } from 'drizzle-orm';
+import { count as countFn, eq } from 'drizzle-orm';
 import { db } from './db';
 import { guess, session } from './db/schema';
 import words from '#lib/server/word-list.txt?raw';
@@ -8,27 +8,30 @@ const COOKIE_KEY = 'session_id';
 
 export async function countGuesses() {
 	const sessionId = getSessionId();
-	if (!sessionId) return;
-
-	const counts = await db
-		.select({ count: count() })
+	const [{ count }] = await db
+		.select({ count: countFn() })
 		.from(guess)
 		.where(eq(guess.sessionId, +sessionId));
 
-	return counts[0].count;
+	return count;
 }
 
 export async function setSessionId() {
-	if (getSessionId()) return;
-
 	const solution = getRandomWord();
-	const sessionIds = await db.insert(session).values({ solution }).returning({ id: session.id });
+	const [{ id }] = await db.insert(session).values({ solution }).returning({ id: session.id });
 
-	getRequestEvent().cookies.set(COOKIE_KEY, sessionIds[0].id.toString(), {});
+	getRequestEvent().cookies.set(COOKIE_KEY, id.toString(), {});
+	return id;
 }
 
-export function getSessionId() {
-	return getRequestEvent().cookies.get(COOKIE_KEY);
+export async function getSessionId() {
+	let sessionId = getRequestEvent().cookies.get(COOKIE_KEY);
+
+	if (!sessionId) {
+		sessionId = (await setSessionId()).toString();
+	}
+
+	return +sessionId;
 }
 
 function getRandomWord() {

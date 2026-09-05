@@ -8,7 +8,6 @@ import * as v from 'valibot';
 
 export const getGuesses = query(async () => {
 	const sessionId = getSessionId();
-	if (!sessionId) return;
 
 	const { value, tileColors } = guess;
 	const guesses = await db
@@ -21,15 +20,14 @@ export const getGuesses = query(async () => {
 
 export const submit = command(v.string(), async (value) => {
 	const sessionId = getSessionId();
-	if (!sessionId) return;
-	if (((await countGuesses()) || 0) >= 6) return;
+	if ((await countGuesses()) >= 6) return;
 
-	const answers = await db
+	const [{ answer }] = await db
 		.select({ answer: session.solution })
 		.from(session)
 		.where(eq(session.id, +sessionId));
 
-	const tileColors = evaluateGuess({ answer: answers[0].answer, guess: value }).join('-');
+	const tileColors = evaluateGuess({ answer, guess: value }).join('-');
 	await db.insert(guess).values({ sessionId: +sessionId, tileColors, value });
 
 	getGuesses().refresh();
