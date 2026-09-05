@@ -27,7 +27,10 @@ export const submit = command(v.pipe(v.string(), v.length(5)), async (value) => 
 		return { status: 'Success' } as const;
 	}
 
-	if (size + 1 == 6) getAnswer().refresh();
+	if (size + 1 == 6) {
+		getAnswer().refresh();
+		return { status: 'Not found' } as const;
+	}
 });
 
 export const getAnotherWord = command(async () => {

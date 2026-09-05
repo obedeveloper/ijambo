@@ -43,9 +43,12 @@ export class Keyboard {
 			return;
 		}
 
+		if (result?.status == 'Not found' || result?.status == 'Success') {
+			this.readyToPlayAgain = true;
+		}
+
 		if (result?.status == 'Success') {
 			this.notifications.push({ title: 'Yegoooo!', color: 'blue' });
-			this.readyToPlayAgain = true;
 		}
 
 		this.userInput = '';
