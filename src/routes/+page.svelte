@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { DESC, TITLE } from '#lib/site-config.ts';
 	import Keyboard from './Keyboard.svelte';
-	import { setKeyboardContext, Keyboard as KeyboardClass } from '#lib/keyboard.svelte.ts';
 	import Tiles from './Tiles.svelte';
-
-	setKeyboardContext(new KeyboardClass());
 
 	const { data } = $props();
 	const guesses = $derived(data.guesses);

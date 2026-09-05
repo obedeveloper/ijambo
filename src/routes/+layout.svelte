@@ -2,8 +2,13 @@
 	import '../app.css';
 	import favicon from '#lib/assets/favicon.svg';
 	import { TITLE, DESC } from '#lib/site-config.ts';
+	import Toast from '#lib/Toast.svelte';
+	import { Notifications, setNotificationsContext } from '#lib/notifications.svelte.ts';
+	import { setKeyboardContext, Keyboard } from '#lib/keyboard.svelte.ts';
 
 	const { children } = $props();
+	const notifications = setNotificationsContext(new Notifications());
+	setKeyboardContext(new Keyboard(notifications));
 </script>
 
 <svelte:head>
@@ -24,6 +29,8 @@
 		{TITLE} - {DESC}
 	</footer>
 </div>
+
+<Toast></Toast>
 
 <style>
 	div {
