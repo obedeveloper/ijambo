@@ -9,7 +9,9 @@ import * as v from 'valibot';
 export const submit = command(v.pipe(v.string(), v.length(5)), async (value) => {
 	const sessionId = await requireSessionId();
 	if ((await countGuesses()) >= 6) return;
-	if (!wordList.includes(value.toLowerCase())) return;
+	if (!wordList.includes(value.toLowerCase())) {
+		return { status: 'Failed', reason: 'Not in word list!' } as const;
+	}
 
 	const [{ answer }] = await db
 		.select({ answer: session.solution })

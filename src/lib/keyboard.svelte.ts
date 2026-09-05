@@ -29,8 +29,12 @@ export class Keyboard {
 	}
 
 	async onsubmit() {
-		await submit(this.userInput);
-		this.userInput = '';
+		const result = await submit(this.userInput);
+
+		if (result?.status !== 'Failed') {
+			this.userInput = '';
+		}
+
 		invalidate('data:guesses');
 	}
 }
