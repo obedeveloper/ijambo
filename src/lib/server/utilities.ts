@@ -7,7 +7,7 @@ import words from '#lib/server/word-list.txt?raw';
 const COOKIE_KEY = 'session_id';
 
 export async function countGuesses() {
-	const sessionId = await getSessionId();
+	const sessionId = await requireSessionId();
 	const [{ count }] = await db
 		.select({ count: countFn() })
 		.from(guess)
@@ -16,7 +16,7 @@ export async function countGuesses() {
 	return count;
 }
 
-export async function getSessionId() {
+export async function requireSessionId() {
 	let sessionId = getRequestEvent().cookies.get(COOKIE_KEY);
 
 	if (!sessionId) {
