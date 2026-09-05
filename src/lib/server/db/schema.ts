@@ -1,17 +1,21 @@
-import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { index, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const session = sqliteTable('session', {
-	id: integer('id').primaryKey(),
+	id: text('id')
+		.primaryKey()
+		.$default(() => crypto.randomUUID()),
 	solution: text('solution').notNull()
 });
 
 export const guess = sqliteTable(
 	'guess',
 	{
-		id: integer('id').primaryKey(),
+		id: text('id')
+			.primaryKey()
+			.$default(() => crypto.randomUUID()),
 		value: text('value').notNull(),
 		tileColors: text('tile_colors').notNull(),
-		sessionId: integer('session_id')
+		sessionId: text('session_id')
 			.notNull()
 			.references(() => session.id, { onDelete: 'cascade' })
 	},

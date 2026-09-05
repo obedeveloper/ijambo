@@ -7,28 +7,28 @@ import { eq } from 'drizzle-orm';
 import * as v from 'valibot';
 
 export const getGuesses = query(async () => {
-	const sessionId = getSessionId();
+	const sessionId = await getSessionId();
 
 	const { value, tileColors } = guess;
 	const guesses = await db
 		.select({ value, tileColors })
 		.from(guess)
-		.where(eq(guess.sessionId, +sessionId));
+		.where(eq(guess.sessionId, sessionId));
 
 	return guesses;
 });
 
 export const submit = command(v.string(), async (value) => {
-	const sessionId = getSessionId();
+	const sessionId = await getSessionId();
 	if ((await countGuesses()) >= 6) return;
 
 	const [{ answer }] = await db
 		.select({ answer: session.solution })
 		.from(session)
-		.where(eq(session.id, +sessionId));
+		.where(eq(session.id, sessionId));
 
 	const tileColors = evaluateGuess({ answer, guess: value }).join('-');
-	await db.insert(guess).values({ sessionId: +sessionId, tileColors, value });
+	await db.insert(guess).values({ sessionId, tileColors, value });
 
 	getGuesses().refresh();
 });

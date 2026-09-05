@@ -7,31 +7,31 @@ import words from '#lib/server/word-list.txt?raw';
 const COOKIE_KEY = 'session_id';
 
 export async function countGuesses() {
-	const sessionId = getSessionId();
+	const sessionId = await getSessionId();
 	const [{ count }] = await db
 		.select({ count: countFn() })
 		.from(guess)
-		.where(eq(guess.sessionId, +sessionId));
+		.where(eq(guess.sessionId, sessionId));
 
 	return count;
-}
-
-export async function setSessionId() {
-	const solution = getRandomWord();
-	const [{ id }] = await db.insert(session).values({ solution }).returning({ id: session.id });
-
-	getRequestEvent().cookies.set(COOKIE_KEY, id.toString(), {});
-	return id;
 }
 
 export async function getSessionId() {
 	let sessionId = getRequestEvent().cookies.get(COOKIE_KEY);
 
 	if (!sessionId) {
-		sessionId = (await setSessionId()).toString();
+		sessionId = await setSessionId();
 	}
 
-	return +sessionId;
+	return sessionId;
+}
+
+async function setSessionId() {
+	const solution = getRandomWord();
+	const [{ id }] = await db.insert(session).values({ solution }).returning({ id: session.id });
+
+	getRequestEvent().cookies.set(COOKIE_KEY, id, {});
+	return id;
 }
 
 function getRandomWord() {
