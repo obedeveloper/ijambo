@@ -1,4 +1,4 @@
-type TileColor = 'green' | 'yellow' | 'gray';
+type TileColor = 'blue' | 'yellow' | 'red';
 
 interface Params {
 	answer: string;
@@ -6,19 +6,19 @@ interface Params {
 }
 
 export function evaluateGuess({ answer, guess }: Params): TileColor[] {
-	const result: TileColor[] = Array(5).fill('gray');
+	const result: TileColor[] = Array(5).fill('red');
 	const remainingAnswer = answer.toUpperCase().split('');
 	const normalizedGuess = guess.toUpperCase();
 
 	for (let i = 0; i < 5; i++) {
 		if (normalizedGuess[i] === remainingAnswer[i]) {
-			result[i] = 'green';
+			result[i] = 'blue';
 			remainingAnswer[i] = '';
 		}
 	}
 
 	for (let i = 0; i < 5; i++) {
-		if (result[i] === 'green') {
+		if (result[i] === 'blue') {
 			continue;
 		}
 
