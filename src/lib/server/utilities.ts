@@ -35,7 +35,7 @@ async function setSessionId() {
 	const solution = getRandomWord();
 	const [{ id }] = await db.insert(session).values({ solution }).returning({ id: session.id });
 
-	getRequestEvent().cookies.set(COOKIE_KEY, id, {});
+	getRequestEvent().cookies.set(COOKIE_KEY, id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 	return id;
 }
 
