@@ -5,6 +5,7 @@ import { guess, session } from './db/schema';
 import words from '#lib/server/word-list.txt?raw';
 
 const COOKIE_KEY = 'session_id';
+export const wordList = words.split('\n');
 
 export async function countGuesses() {
 	const sessionId = await requireSessionId();
@@ -39,9 +40,8 @@ async function setSessionId() {
 }
 
 function getRandomWord() {
-	const wordsArray = words.split('\n');
-	const size = wordsArray.length;
+	const size = wordList.length;
 	const index = Math.floor(Math.random() * size);
 
-	return wordsArray[index];
+	return wordList[index];
 }
