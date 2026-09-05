@@ -19,7 +19,7 @@
 			{const { value, tileColors } = guesses[i]}
 			{const color = tileColors.split('-')[j]}
 
-			<div style:--color={color}>{value[j]}</div>
+			<div style:--color={color}>{value[j].toUpperCase()}</div>
 		{/each}
 	{/each}
 

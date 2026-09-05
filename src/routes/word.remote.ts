@@ -23,7 +23,7 @@ export const submit = command(v.pipe(v.string(), v.length(5)), async (value) => 
 			.where(eq(session.id, sessionId));
 
 		const tileColors = evaluateGuess({ answer, guess: value }).join('-');
-		await db.insert(guess).values({ sessionId, tileColors, value });
+		await db.insert(guess).values({ sessionId, tileColors, value: value.toLowerCase() });
 	} catch {
 		deleteSessionId();
 	}
