@@ -10,7 +10,7 @@ export class Notifications {
 	readonly value: SingleNotification[] = $state([]);
 	private size = $derived(this.value.length);
 
-	push(notification: { title: string; color?: string }) {
+	push(notification: { title: string; color: string }) {
 		this.value.push({
 			...notification,
 			id: crypto.randomUUID(),

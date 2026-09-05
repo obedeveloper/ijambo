@@ -23,11 +23,14 @@
 		gap: 0.5rem;
 
 		div {
-			color: white;
+			font-size: 1.1rem;
+			font-weight: 500;
 			padding: 0.5rem 0.75rem;
-			border-radius: 0.5rem;
-			background-color: oklch(from var(--color) 40% 50% h / 90%);
-			backdrop-filter: blur(4px);
+			border-radius: 0.35rem;
+			background-color: white;
+			min-height: 50px;
+			border: 2.5px solid oklch(from var(--color) 40% 50% h);
+			border-inline-start-width: 7.5px;
 		}
 	}
 </style>

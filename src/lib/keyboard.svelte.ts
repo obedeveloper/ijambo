@@ -39,7 +39,7 @@ export class Keyboard {
 		const result = await submit(this.userInput);
 
 		if (result?.status == 'Failed') {
-			this.notifications.push({ title: result.reason, color: 'red' });
+			this.notifications.push({ title: result.reason, color: 'orange' });
 			return;
 		}
 
