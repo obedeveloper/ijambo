@@ -23,9 +23,11 @@
 		{/each}
 	{/each}
 
-	{#each { length: 5 }, j}
-		<div>{input[j]}</div>
-	{/each}
+	{#if size < 6}
+		{#each { length: 5 }, j}
+			<div>{input[j]}</div>
+		{/each}
+	{/if}
 
 	{#each { length: 6 - size - 1 }}
 		{#each { length: 5 }}
@@ -48,7 +50,7 @@
 			display: grid;
 			place-content: center;
 			font-weight: 600;
-			background-color: oklch(from var(--color) 50% 80% h / 65%);
+			background-color: oklch(from var(--color) 60% 70% h / 60%);
 		}
 	}
 </style>
