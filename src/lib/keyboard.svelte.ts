@@ -3,8 +3,8 @@ import { createContext } from 'svelte';
 import { submit } from '../routes/word.remote';
 
 export class Keyboard {
-	rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
-	private userInput = $state('');
+	readonly rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+	userInput = $state('');
 	private size = $derived(this.userInput.length);
 
 	onkeydown(e: KeyboardEvent) {
