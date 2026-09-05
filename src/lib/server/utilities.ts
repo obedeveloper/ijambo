@@ -44,7 +44,7 @@ async function setSessionId() {
 	return id;
 }
 
-function getRandomWord() {
+export function getRandomWord() {
 	const size = wordList.length;
 	const index = Math.floor(Math.random() * size);
 

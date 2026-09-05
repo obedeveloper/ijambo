@@ -8,6 +8,7 @@ export class Keyboard {
 	userInput = $state('');
 	private size = $derived(this.userInput.length);
 	private notifications: Notifications;
+	readyToPlayAgain = $state(false);
 
 	constructor(notifications: Notifications) {
 		this.notifications = notifications;
@@ -24,7 +25,7 @@ export class Keyboard {
 	}
 
 	oninput(key: string) {
-		if (this.size >= 5) return;
+		if (this.size >= 5 || this.readyToPlayAgain) return;
 		this.userInput += key;
 	}
 
@@ -39,10 +40,15 @@ export class Keyboard {
 
 		if (result?.status == 'Failed') {
 			this.notifications.push({ title: result.reason, color: 'red' });
-		} else {
-			this.userInput = '';
+			return;
 		}
 
+		if (result?.status == 'Success') {
+			this.notifications.push({ title: 'Yegoooo!', color: 'blue' });
+			this.readyToPlayAgain = true;
+		}
+
+		this.userInput = '';
 		invalidate('data:guesses');
 	}
 }
