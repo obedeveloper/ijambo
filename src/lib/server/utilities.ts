@@ -18,17 +18,22 @@ export async function countGuesses() {
 }
 
 export async function requireSessionId() {
-	let sessionId = getRequestEvent().cookies.get(COOKIE_KEY);
+	const localId = getRequestEvent().cookies.get(COOKIE_KEY);
 
-	if (!sessionId) {
-		sessionId = await setSessionId();
+	if (!localId) {
+		return await setSessionId();
 	}
 
-	return sessionId;
-}
+	try {
+		const [{ id }] = await db
+			.select({ id: session.id })
+			.from(session)
+			.where(eq(session.id, localId));
 
-export function deleteSessionId() {
-	getRequestEvent().cookies.delete(COOKIE_KEY, {});
+		return id;
+	} catch {
+		return await setSessionId();
+	}
 }
 
 async function setSessionId() {
