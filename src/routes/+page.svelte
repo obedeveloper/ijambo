@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { DESC, TITLE } from '#lib/site-config.ts';
 	import Keyboard from './Keyboard.svelte';
+	import { setKeyboardContext, Keyboard as KeyboardClass } from '#lib/keyboard.svelte.ts';
 
-	const inputs: string[] = $state(Array.from({ length: 6 }, () => ''));
-	const currentIndex = $state(0);
+	setKeyboardContext(new KeyboardClass());
+
+	const { data } = $props();
+	const guesses = $derived(data.guesses);
 </script>
 
 <svelte:head>
@@ -15,11 +18,11 @@
 	<section>
 		{#each { length: 6 }, i}
 			{#each { length: 5 }, j}
-				<div>{inputs[i][j]}</div>
+				<div>{guesses[i]?.value[j]}</div>
 			{/each}
 		{/each}
 	</section>
-	<Keyboard bind:userInput={inputs[currentIndex]}></Keyboard>
+	<Keyboard></Keyboard>
 </div>
 
 <style>
