@@ -4,7 +4,7 @@
 	import { invalidate } from '$app/navigation';
 	import Keyboard from './Keyboard.svelte';
 	import Tiles from './Tiles.svelte';
-	import { getAnotherWord } from './word.remote.js';
+	import { getAnotherWord, getAnswer } from './word.remote.js';
 
 	const { data } = $props();
 	const guesses = $derived(data.guesses);
@@ -13,7 +13,9 @@
 			return tileColors.split('-').every((color) => color == 'blue');
 		})
 	);
+
 	const keyboard = getKeyboardContext();
+	const asnwer = $derived(await getAnswer());
 </script>
 
 <svelte:head>
@@ -24,12 +26,18 @@
 <div class="wrapper">
 	<div>
 		<Tiles {guesses}></Tiles>
-		{#if playAgain}
+		{#if asnwer}
+			<p>Ijambo ry'ukuri ni: <span>{asnwer}</span></p>
+		{/if}
+
+		{#if playAgain || asnwer}
 			<button
 				onclick={async () => {
 					await getAnotherWord();
-					invalidate('data:guesses');
 					keyboard.readyToPlayAgain = false;
+
+					invalidate('data:guesses');
+					getAnswer().refresh();
 				}}
 			>
 				Ongera ukine
@@ -51,11 +59,22 @@
 		justify-content: space-between;
 	}
 
+	p {
+		text-align: center;
+		margin-block: 1rem 0.65rem;
+
+		span {
+			text-decoration: underline;
+			font-weight: 500;
+			text-transform: uppercase;
+		}
+	}
+
 	button {
 		--bg-color: oklch(29.803% 0.09196 256.819);
 		display: block;
 		margin-inline: auto;
-		margin-block: 1.35rem;
+		margin-block-start: 1.35rem;
 		padding: 0.5rem 0.75rem;
 		cursor: pointer;
 		border: none;
@@ -64,6 +83,10 @@
 		background-color: var(--bg-color);
 		color: white;
 		border-radius: 0.35rem;
+
+		p + & {
+			margin-block-start: 0;
+		}
 
 		@media (hover: hover) {
 			&:hover {
