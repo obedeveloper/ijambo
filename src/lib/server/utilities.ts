@@ -26,6 +26,10 @@ export async function requireSessionId() {
 	return sessionId;
 }
 
+export function deleteSessionId() {
+	getRequestEvent().cookies.delete(COOKIE_KEY, {});
+}
+
 async function setSessionId() {
 	const solution = getRandomWord();
 	const [{ id }] = await db.insert(session).values({ solution }).returning({ id: session.id });
