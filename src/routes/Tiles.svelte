@@ -37,6 +37,10 @@
 </section>
 
 <style>
+	* {
+		user-select: none;
+	}
+
 	section {
 		display: grid;
 		grid-template-columns: repeat(5, 3.5rem);

@@ -26,6 +26,10 @@
 </section>
 
 <style>
+	* {
+		user-select: none;
+	}
+
 	section {
 		margin-block-start: 1.5rem;
 	}
@@ -48,6 +52,5 @@
 		border: none;
 		cursor: pointer;
 		font-weight: 700;
-		user-select: none;
 	}
 </style>
